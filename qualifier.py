@@ -13,6 +13,7 @@ Important notes for submission:
   remove all debug prints and other debug statements before you submit your
   solution.
 """
+from collections import Counter
 import datetime
 import typing
 
@@ -26,6 +27,59 @@ class ArticleField:
 
 class Article:
     """The `Article` class you need to write for the qualifier."""
+    title = ''
+    author = ''
+    publication_date = ''
+    content = ''
 
     def __init__(self, title: str, author: str, publication_date: datetime.datetime, content: str):
-        pass
+      self.title = title
+      self.author = author
+      self.publication_date = publication_date
+      self.content = content
+
+    def __repr__(self):
+      return '<Article title="{title}" author=\'{author}\' publication_date=\'{date}\'>'.format(title = self.title, author = self.author, date = self.publication_date.isoformat())
+    
+    def __len__(self):
+      return len(self.content)
+
+    def short_introduction(self, n_characters: int):
+      newStr = self.content[:n_characters]
+      period = newStr.rfind('.',0)
+      space = newStr.rfind(' ',0)
+      if period > space:
+        return newStr[:period+1]
+      else:
+        return newStr[:space]
+      return newStr
+
+    def most_common_words(self, n_words: int):
+      str = self.content.lower()
+      wordList2 =[]
+      wordList1 = str.split()
+      for word in wordList1:
+          cleanWord = ""
+          for char in word:
+              if char in '!\',.?":;0123456789@#$%^&*()\{\}[]\\></|_-+=`~':
+                  char = ""
+              cleanWord += char
+          wordList2.append(cleanWord)
+
+      str_list = wordList2
+      most_occur = Counter(str_list).most_common(n_words)
+      common = {}
+      first = []
+      second = []
+
+      for a_tuple in most_occur:
+        first.append(a_tuple[0])
+      for b_tuple in most_occur:
+        second.append(b_tuple[1])
+      for key in first: 
+        for value in second: 
+          common[key] = value 
+          second.remove(value) 
+          break  
+      return common
+      

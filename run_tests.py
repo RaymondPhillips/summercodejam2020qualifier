@@ -36,7 +36,7 @@ class QualifierTestRunner:
         )
 
     def write_footer(self, result: QualifierTestResult, duration: float) -> None:
-        """Write a footer for this test run."""
+        """Write a foclsoter for this test run."""
         self.stream.writeln()
         self.stream.write_separator("=")
         self.stream.writeln(f"Test Suite Summary")
